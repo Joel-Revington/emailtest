@@ -1,6 +1,6 @@
 // pages/api/zohoWebhook.js
 // import { saveProductDetailsToDatabase } from 'path-to-your-database-function';
-import { saveProductDetailsToDatabase } from "../database";
+import { saveProductDetailsToDatabase } from "./database";
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       const companyNameMatch = emailBody.match(/Company Name: (.+)/);
       const contactNameMatch = emailBody.match(/Hello (\w+\s\w+)/);
       
-      
+
       const products = [];
       // Regex to find product names and quantities
       const productMatches = emailBody.matchAll(/([A-Za-z\s\&]+) Commercial Product Subscription Renewal .+Qty:\s*(\d+)/g);
