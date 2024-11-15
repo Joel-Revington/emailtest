@@ -16,17 +16,28 @@ export default async function handler(req, res) {
       products
     } = req.body;
 
-    // Validate that 'products' is an array
-    if (!Array.isArray(products)) {
+    // Ensure 'products' is parsed as an array if it's a stringified JSON
+    let parsedProducts = products;
+    try {
+      if (typeof products === 'string') {
+        parsedProducts = JSON.parse(products); // Parse the stringified JSON
+      }
+    } catch (error) {
+      console.error("Error parsing 'products':", error);
+      return res.status(400).json({ error: "Invalid 'products' format" });
+    }
+
+    // Validate that 'products' is now an array
+    if (!Array.isArray(parsedProducts)) {
       console.error("Invalid data: 'products' must be an array");
       return res.status(400).json({ error: "Invalid data: 'products' must be an array" });
     }
 
-    // Log products array to ensure it's structured correctly
-    console.log("Products array:", products);
+    // Log parsed products array for verification
+    console.log("Parsed products array:", parsedProducts);
 
     // Prepare an array of records to insert into Supabase
-    const records = products.map(product => ({
+    const records = parsedProducts.map(product => ({
       OrderReceived,
       email,
       company,
