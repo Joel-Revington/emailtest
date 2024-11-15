@@ -4,7 +4,6 @@ import { supabase } from "../../../client";
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    // Extract parsed data from the request body
     const {
       OrderReceived,
       email,
@@ -16,29 +15,33 @@ export default async function handler(req, res) {
       products
     } = req.body;
 
-    // Insert data into Supabase
+    // Prepare an array of records to insert
+    const records = products.map(product => ({
+      OrderReceived,
+      email,
+      company,
+      ContactName,
+      ContractNumber,
+      StartDate,
+      EndDate,
+      ProductDescription: product.ProductDescription,
+      NewRenewal: product.NewRenewal,
+      Term: product.Term,
+      Quantity: product.Quantity
+    }));
+
+    // Insert each product as a new row
     const { data, error } = await supabase
       .from('EmailTest') // Replace with your actual table name
-      .insert([{
-        OrderReceived,
-        email,
-        company,
-        ContactName,
-        ContractNumber,
-        StartDate,
-        EndDate,
-        products
-      }]);
+      .insert(records);
 
     if (error) {
       console.error('Error inserting data:', error);
       return res.status(500).json({ error: 'Error saving data' });
     }
 
-    // Success response
     res.status(200).json({ message: 'Data added successfully', data });
   } else {
-    // Method not allowed
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
