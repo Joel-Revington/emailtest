@@ -11,8 +11,7 @@ export default async function handler(req, res) {
     try {
       // Insert parsed data into your Supabase table
       const { data, error } = await supabase
-
-      20  .from('EmailTest') // Replace with your table name
+        .from('EmailTest') // Replace with your table name
         .insert([parsedData]);
 
       if (error) {
