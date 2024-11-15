@@ -36,7 +36,8 @@ export default async function handler(req, res) {
       Term: product.Term,
       Quantity: product.Quantity
     }));
-
+    console.log("records", records);
+    
     // Insert each product as a new row
     const { data, error } = await supabase
       .from('EmailTest') // Replace with your actual table name
