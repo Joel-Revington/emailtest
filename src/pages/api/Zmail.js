@@ -1,8 +1,8 @@
-// pages/api/email.js
-
 import { supabase } from "../../../client";
 
 export default async function handler(req, res) {
+  console.log("inco",req.body);
+  
   if (req.method === 'POST') {
     const {
       OrderReceived,
@@ -14,6 +14,11 @@ export default async function handler(req, res) {
       EndDate,
       products
     } = req.body;
+
+    // Validate that 'products' is an array
+    if (!Array.isArray(products)) {
+      return res.status(400).json({ error: "Invalid data: 'products' must be an array" });
+    }
 
     // Prepare an array of records to insert
     const records = products.map(product => ({
