@@ -14,8 +14,6 @@ export default async function handler(req, res) {
       EndDate,
       products
     } = req.body;
-    const productList = JSON.parse(products)
-    console.log(productList);
     
     // Validate that 'products' is an array
     if (!Array.isArray(products)) {
