@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
     // Insert data into Supabase
     const { data, error } = await supabase
-      .from('your_table_name') // Replace with your actual table name
+      .from('EmailTest') // Replace with your actual table name
       .insert([{
         OrderReceived,
         email,
