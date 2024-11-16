@@ -36,21 +36,28 @@ export default async function handler(req, res) {
     // Log parsed products array for verification
     console.log("Parsed products array:", parsedProducts);
 
+    const records = []
     // Prepare an array of records to insert into Supabase
-    const records = parsedProducts.map(product => ({
-      OrderReceived,
-      email,
-      company,
-      ContactName,
-      ContractNumber,
-      StartDate,
-      EndDate,
-      ProductDescription: product.ProductDescription,
-      NewRenewal: product.NewRenewal,
-      Term: product.Term,
-      Quantity: product.Quantity
-    }));
-
+     parsedProducts.map((product) => {
+      if(product.ProductDescription !== ''){
+        const record ={
+          OrderReceived,
+          email,
+          company,
+          ContactName,
+          ContractNumber,
+          StartDate,
+          EndDate,
+          ProductDescription: product.ProductDescription,
+          NewRenewal: product.NewRenewal,
+          Term: product.Term,
+          Quantity: product.Quantity
+          
+        }
+        records.push(record)
+      }
+    });
+ 
     // Log the records to ensure they are formatted correctly
     console.log("Prepared records for insertion:", records);
 
